@@ -6,6 +6,7 @@ import Authorization from './components/authentication/authorization';
 import PageAPI from './components/pageApi/index';
 import MainPage from './components/main/mainPage';
 
+
 class App extends Component {
   render() {
     const {login} = this.props;
@@ -15,10 +16,10 @@ class App extends Component {
           <div className="row">
             <BrowserRouter>
               <Switch>
-                <Route login={login} exact path="/" component={Authorization} /> 
-                <Route path="/registration" component={Registration} /> 
-                <Route path="/api_rest" component={PageAPI}/> 
-                <Route path="/main" component={MainPage}/>
+              <Route exact path="/" login={login} component={MainPage}/>
+              <Route exact path="/login" component={Authorization}/>
+              <Route exact path="/registration" component={Registration}/>
+              <Route exact path="/api" component={PageAPI}/>
               </Switch> 
             </BrowserRouter>
           </div>

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 import { connect } from 'react-redux';
 import {getLogin} from '../../redux/action';
-
+import AuthService from './authnService';
 
 class Authorization extends Component {
     constructor(prop){
@@ -12,7 +12,16 @@ class Authorization extends Component {
             login: '',
             password: '',
         };
+        this.Auth = new AuthService();
     };
+
+    componentWillMount(){
+        this.verifReg();
+    }
+
+    verifReg = () => {
+        localStorage.getItem('id_token') ? this.props.history.push('/') : console.log('dont token');
+    }
 
     handleLoginChange = (e) => {
         this.setState({
@@ -32,18 +41,27 @@ class Authorization extends Component {
         const login = this.state.login;
         const password = this.state.password;
 
-        axios.post('http://localhost:3001/users/signIn', {login, password })
-        .then(res => {
-            console.log(res.data);
+        // axios.post('http://localhost:3001/users/login', {login, password })
+        // .then(res => {
+        //     console.log(res.data);
 
-            if(res.data === 'Success'){
-                window.localStorage.login = login;
-                this.props.history.push('/main');
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        //     if(res.data.sucess === true){
+        //         window.localStorage.login = login;
+        //         this.props.history.push('/');
+        //     }
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        // })
+
+        this.Auth.login(login, password)
+            .then(res =>{
+                console.log(res.sucess)
+                this.props.history.push('/');
+            })
+            .catch(err =>{
+                console.log(err);
+            })
     }
 
     render(){

@@ -11,6 +11,14 @@ class Registration extends Component {
         success: ''
     };
 
+    componentWillMount(){
+        this.verifReg();
+    }
+
+    verifReg = () => {
+        localStorage.getItem('id_token') ? this.props.history.push('/') : console.log('dont token');
+    }
+
     handleNameChange = (e) => {
         this.setState({
             name: e.target.value
